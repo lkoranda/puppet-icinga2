@@ -13,9 +13,7 @@
 #
 class icinga2::config {
 
-  if defined($caller_module_name) and $module_name != $caller_module_name {
-    fail("icinga2::config is a private class of the module icinga2, you're not permitted to use it.")
-  }
+  assert_private()
 
   $constants      = prefix($::icinga2::_constants, 'const ')
   $conf_dir       = $::icinga2::params::conf_dir
@@ -24,6 +22,7 @@ class icinga2::config {
   $purge_features = $::icinga2::purge_features
   $user           = $::icinga2::params::user
   $group          = $::icinga2::params::group
+  $repositoryd    = $::icinga2::repositoryd
 
   File {
     owner => $user,

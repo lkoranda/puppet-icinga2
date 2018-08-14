@@ -14,17 +14,15 @@
 #
 class icinga2::install {
 
-  if defined($caller_module_name) and $module_name != $caller_module_name {
-    fail("icinga2::install is a private class of the module icinga2, you're not permitted to use it.")
-  }
+  assert_private()
 
   $package        = $::icinga2::params::package
-  $conf_dir       = $::icinga2::params::conf_dir
-  $purge_features = $::icinga2::purge_features
   $manage_package = $::icinga2::manage_package
   $pki_dir        = $::icinga2::params::pki_dir
+  $conf_dir       = $::icinga2::params::conf_dir
   $user           = $::icinga2::params::user
   $group          = $::icinga2::params::group
+  $repositoryd    = $::icinga2::repositoryd
 
   File {
     owner => $user,
@@ -36,17 +34,31 @@ class icinga2::install {
 
     package { $package:
       ensure => installed,
-      before => File["${conf_dir}/features-enabled", $pki_dir, $conf_dir],
+      before => File[$pki_dir, $conf_dir],
     }
   }
 
-  # anchor, i.e. for config directory set by confd parameter
-  file { $conf_dir:
+  file { [$pki_dir, $conf_dir]:
     ensure => directory,
-    mode   => '0755',
+    mode   => '0755', 
+    owner  => $user,
+    group  => $group,
   }
-  file { $pki_dir:
-    ensure  => directory,
+
+  # deprecated, removed in Icinga 2 v2.8.0
+  $_ensure = $repositoryd ? {
+    true    => 'directory',
+    default => 'absent',
+  }
+
+  file { "${conf_dir}/repository.d":
+    ensure  => $_ensure,
+    owner   => $user,
+    group   => $group,
     recurse => true,
+    purge   => true,
+    force   => true,
+    require => File[$pki_dir, $conf_dir],
   }
+
 }

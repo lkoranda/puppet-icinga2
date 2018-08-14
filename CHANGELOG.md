@@ -1,5 +1,143 @@
 # Change Log
 
+## [v1.3.6](https://github.com/Icinga/puppet-icinga2/tree/v1.3.6) (2018-04-25)
+[Full Changelog](https://github.com/Icinga/puppet-icinga2/compare/v1.3.5...v1.3.6)
+
+**Implemented enhancements:**
+
+- Add support for SLC6 Linux [\#441](https://github.com/Icinga/puppet-icinga2/pull/441) ([HristoMohamed](https://github.com/HristoMohamed))
+- Support manage\_repo on XenServer [\#436](https://github.com/Icinga/puppet-icinga2/pull/436) ([jcharaoui](https://github.com/jcharaoui))
+
+**Fixed bugs:**
+
+- Changes on concat resource for objects does not trigger a refresh on puppet3 [\#434](https://github.com/Icinga/puppet-icinga2/issues/434)
+- don't quote null  [\#433](https://github.com/Icinga/puppet-icinga2/issues/433)
+
+**Closed issues:**
+
+- Using apply in a service causes service\_name not to be applied to service leading to duplicate resource issues [\#429](https://github.com/Icinga/puppet-icinga2/issues/429)
+- Applying services to hostgroups [\#427](https://github.com/Icinga/puppet-icinga2/issues/427)
+
+**Merged pull requests:**
+
+- Bug/do not quote null 433 [\#435](https://github.com/Icinga/puppet-icinga2/pull/435) ([lbetz](https://github.com/lbetz))
+
+## [v1.3.5](https://github.com/Icinga/puppet-icinga2/tree/v1.3.5) (2018-01-24)
+[Full Changelog](https://github.com/Icinga/puppet-icinga2/compare/v1.3.4...v1.3.5)
+
+**Implemented enhancements:**
+
+- icinga2 binary is wrong on rhel5 [\#409](https://github.com/Icinga/puppet-icinga2/issues/409)
+- Add feature Elasticsearch [\#408](https://github.com/Icinga/puppet-icinga2/issues/408)
+- Add feature elasticsearch [\#399](https://github.com/Icinga/puppet-icinga2/issues/399)
+- Added cloudlinux to supported operating systems. Is nearly identical … [\#424](https://github.com/Icinga/puppet-icinga2/pull/424) ([koma85](https://github.com/koma85))
+
+**Fixed bugs:**
+
+- Setting up icinga2 with a different port than default for idodb leads to an error  [\#411](https://github.com/Icinga/puppet-icinga2/issues/411)
+- fix \#411 Setting up Icinga 2 with a different port than default for i… [\#413](https://github.com/Icinga/puppet-icinga2/pull/413) ([lbetz](https://github.com/lbetz))
+- fix for repository.d directory on master-systems [\#412](https://github.com/Icinga/puppet-icinga2/pull/412) ([matthiasritter](https://github.com/matthiasritter))
+
+**Closed issues:**
+
+- escaping broken with double quotes? [\#416](https://github.com/Icinga/puppet-icinga2/issues/416)
+- Icinga resource doesn't create ca directory and required files [\#415](https://github.com/Icinga/puppet-icinga2/issues/415)
+- icinga2 option generates self signed certificates that are rejected by master [\#405](https://github.com/Icinga/puppet-icinga2/issues/405)
+- manage repo trough proxy [\#394](https://github.com/Icinga/puppet-icinga2/issues/394)
+
+**Merged pull requests:**
+
+- trivial copy edits [\#420](https://github.com/Icinga/puppet-icinga2/pull/420) ([wkalt](https://github.com/wkalt))
+- Fix confd example path [\#417](https://github.com/Icinga/puppet-icinga2/pull/417) ([dnsmichi](https://github.com/dnsmichi))
+- fix \#409 icinga2 binary is wrong on rhel5 [\#410](https://github.com/Icinga/puppet-icinga2/pull/410) ([lbetz](https://github.com/lbetz))
+
+## [v1.3.4](https://github.com/Icinga/puppet-icinga2/tree/v1.3.4) (2017-11-22)
+[Full Changelog](https://github.com/Icinga/puppet-icinga2/compare/v1.3.3...v1.3.4)
+
+**Fixed bugs:**
+
+- repository.d missing after install [\#403](https://github.com/Icinga/puppet-icinga2/issues/403)
+- Boolean 'false' custom variables do not appear in configuration [\#400](https://github.com/Icinga/puppet-icinga2/issues/400)
+- $bin\_dir path incorrect for FreeBSD in params.pp [\#396](https://github.com/Icinga/puppet-icinga2/issues/396)
+
+**Closed issues:**
+
+- missing /etc/pki directory [\#393](https://github.com/Icinga/puppet-icinga2/issues/393)
+
+**Merged pull requests:**
+
+- fix \#400 boolean false custom variables do not appear in configuration [\#406](https://github.com/Icinga/puppet-icinga2/pull/406) ([lbetz](https://github.com/lbetz))
+- Bug/repository.d missing after install 403 [\#404](https://github.com/Icinga/puppet-icinga2/pull/404) ([lbetz](https://github.com/lbetz))
+- fix \#396 incorrect bin\_dir path for FreeBSD [\#401](https://github.com/Icinga/puppet-icinga2/pull/401) ([lbetz](https://github.com/lbetz))
+
+## [v1.3.3](https://github.com/Icinga/puppet-icinga2/tree/v1.3.3) (2017-10-24)
+[Full Changelog](https://github.com/Icinga/puppet-icinga2/compare/v1.3.2...v1.3.3)
+
+**Fixed bugs:**
+
+- Icinga2 binary not found on Redhat/Centos 6 family [\#390](https://github.com/Icinga/puppet-icinga2/issues/390)
+
+**Merged pull requests:**
+
+- fix \#390 icinga2 binary not found on rhel6 [\#391](https://github.com/Icinga/puppet-icinga2/pull/391) ([lbetz](https://github.com/lbetz))
+
+## [v1.3.2](https://github.com/Icinga/puppet-icinga2/tree/v1.3.2) (2017-10-11)
+[Full Changelog](https://github.com/Icinga/puppet-icinga2/compare/v1.3.1...v1.3.2)
+
+**Fixed bugs:**
+
+- SLES should use service pack repository [\#386](https://github.com/Icinga/puppet-icinga2/issues/386)
+
+**Closed issues:**
+
+- Update docs how to pass package version [\#388](https://github.com/Icinga/puppet-icinga2/issues/388)
+
+## [v1.3.1](https://github.com/Icinga/puppet-icinga2/tree/v1.3.1) (2017-10-05)
+[Full Changelog](https://github.com/Icinga/puppet-icinga2/compare/v1.3.0...v1.3.1)
+
+**Implemented enhancements:**
+
+- Fix small typos [\#358](https://github.com/Icinga/puppet-icinga2/issues/358)
+- Review and update puppetlabs-concat dependency [\#351](https://github.com/Icinga/puppet-icinga2/issues/351)
+- Documentation to set up mysql grants is incorrect. [\#347](https://github.com/Icinga/puppet-icinga2/issues/347)
+- Check attributes of all objects [\#219](https://github.com/Icinga/puppet-icinga2/issues/219)
+- Align documentation for duplicate repository [\#353](https://github.com/Icinga/puppet-icinga2/issues/353)
+- Update documentation about += operator [\#352](https://github.com/Icinga/puppet-icinga2/issues/352)
+- Example and documentation for syncing hiera data to icinga objects [\#342](https://github.com/Icinga/puppet-icinga2/issues/342)
+- Add owner-, groupship and permissions to file resources [\#291](https://github.com/Icinga/puppet-icinga2/issues/291)
+- Support Puppet 5 and test it in travis [\#330](https://github.com/Icinga/puppet-icinga2/pull/330) ([lazyfrosch](https://github.com/lazyfrosch))
+
+**Fixed bugs:**
+
+- Error: Could not find command 'icinga2' on SLES-11 [\#374](https://github.com/Icinga/puppet-icinga2/issues/374)
+- When passing non-fqdn name for the NodeName the certificate is still generated with cn set to fqdn [\#328](https://github.com/Icinga/puppet-icinga2/issues/328)
+- Install package before creating config files [\#378](https://github.com/Icinga/puppet-icinga2/issues/378)
+- Icinga2 binary not found on Debian and FreeBSD [\#371](https://github.com/Icinga/puppet-icinga2/issues/371)
+- Could not find command Icinga2 on windows [\#367](https://github.com/Icinga/puppet-icinga2/issues/367)
+- Error: Parameter user failed on Exec\[icinga2 pki create key\]: Unable to execute commands as other users on Windows at manifestsfeature/api.pp:317 [\#366](https://github.com/Icinga/puppet-icinga2/issues/366)
+- Unit tests broken for facter 2.5 [\#338](https://github.com/Icinga/puppet-icinga2/issues/338)
+- protection of private classes is wrong [\#333](https://github.com/Icinga/puppet-icinga2/issues/333)
+- ticketsalt only should be stored on ca nodes [\#325](https://github.com/Icinga/puppet-icinga2/issues/325)
+- key and cert permissions on windows [\#282](https://github.com/Icinga/puppet-icinga2/issues/282)
+
+**Closed issues:**
+
+- Implement conditional statements/loops parameter for icinga2::object::\* [\#354](https://github.com/Icinga/puppet-icinga2/issues/354)
+- document manage\_package with manage\_repo [\#381](https://github.com/Icinga/puppet-icinga2/issues/381)
+
+**Merged pull requests:**
+
+- Remove soft depedencies from metadata.json [\#385](https://github.com/Icinga/puppet-icinga2/pull/385) ([noqqe](https://github.com/noqqe))
+- fix \#378 install package before creating config files [\#380](https://github.com/Icinga/puppet-icinga2/pull/380) ([lbetz](https://github.com/lbetz))
+- fix \#371, add binary path to icinga2 for Debian, SuSE and FreeBSD [\#372](https://github.com/Icinga/puppet-icinga2/pull/372) ([lbetz](https://github.com/lbetz))
+- fix \#325, ticket\_salt ist stored to api.conf only if pki = none|ca [\#370](https://github.com/Icinga/puppet-icinga2/pull/370) ([lbetz](https://github.com/lbetz))
+- fix \#367, \#366 and remove management of conf\_dir [\#369](https://github.com/Icinga/puppet-icinga2/pull/369) ([lbetz](https://github.com/lbetz))
+- Examples: Fix notification commands for 2.7 [\#368](https://github.com/Icinga/puppet-icinga2/pull/368) ([dnsmichi](https://github.com/dnsmichi))
+- Fixed typos [\#357](https://github.com/Icinga/puppet-icinga2/pull/357) ([rgevaert](https://github.com/rgevaert))
+- fix \#338 update facterdb dependency to 0.3.12 [\#349](https://github.com/Icinga/puppet-icinga2/pull/349) ([lbetz](https://github.com/lbetz))
+- Update protection of private classes from direct use [\#336](https://github.com/Icinga/puppet-icinga2/pull/336) ([lbetz](https://github.com/lbetz))
+- Update documentation examples for mysql::db [\#346](https://github.com/Icinga/puppet-icinga2/pull/346) ([rgevaert](https://github.com/rgevaert))
+
 ## [v1.3.0](https://github.com/Icinga/puppet-icinga2/tree/v1.3.0) (2017-06-26)
 [Full Changelog](https://github.com/Icinga/puppet-icinga2/compare/v1.2.1...v1.3.0)
 
@@ -9,30 +147,30 @@
 
 **Fixed bugs:**
 
+- PR \#293 does not work correctly [\#304](https://github.com/Icinga/puppet-icinga2/issues/304)
 - fix certname in api and pki::ca class to constant NodeName [\#319](https://github.com/Icinga/puppet-icinga2/issues/319)
 - ordering-api-with-pki-after-package [\#311](https://github.com/Icinga/puppet-icinga2/issues/311)
 - Only last empty hash is stored [\#308](https://github.com/Icinga/puppet-icinga2/issues/308)
 - module requirements broken. [\#305](https://github.com/Icinga/puppet-icinga2/issues/305)
-- PR \#293 does not work correctly [\#304](https://github.com/Icinga/puppet-icinga2/issues/304)
 - ido-mysql install fails while using official icinga packages [\#302](https://github.com/Icinga/puppet-icinga2/issues/302)
 - concat resource with tag does not trigger a refresh [\#300](https://github.com/Icinga/puppet-icinga2/issues/300)
 - ido packages are managed before repository [\#299](https://github.com/Icinga/puppet-icinga2/issues/299)
 - RSpec Puppetlabs modules incompatible to Puppet 3 [\#286](https://github.com/Icinga/puppet-icinga2/issues/286)
 - Disable feature checker doesn't trigger a refresh [\#285](https://github.com/Icinga/puppet-icinga2/issues/285)
 - SLES Lib directory is not architecture specific [\#283](https://github.com/Icinga/puppet-icinga2/issues/283)
-- debian::dbconfig: Move to autoload location and lint it [\#322](https://github.com/Icinga/puppet-icinga2/pull/322) ([lazyfrosch](https://github.com/lazyfrosch))
 - Fix examples/init\_confd.pp [\#313](https://github.com/Icinga/puppet-icinga2/pull/313) ([sourcejedi](https://github.com/sourcejedi))
 - README.md: fix typo `notifiy` [\#312](https://github.com/Icinga/puppet-icinga2/pull/312) ([sourcejedi](https://github.com/sourcejedi))
+- debian::dbconfig: Move to autoload location and lint it [\#322](https://github.com/Icinga/puppet-icinga2/pull/322) ([lazyfrosch](https://github.com/lazyfrosch))
 
 **Merged pull requests:**
 
 - Update checker.pp, arrow alignment [\#316](https://github.com/Icinga/puppet-icinga2/pull/316) ([rowanruseler](https://github.com/rowanruseler))
 - Update fragment.pp [\#315](https://github.com/Icinga/puppet-icinga2/pull/315) ([rowanruseler](https://github.com/rowanruseler))
 - Add GitHub issue template [\#310](https://github.com/Icinga/puppet-icinga2/pull/310) ([dnsmichi](https://github.com/dnsmichi))
-- Replace darin/zypprepo with puppet/zypprepo [\#306](https://github.com/Icinga/puppet-icinga2/pull/306) ([noqqe](https://github.com/noqqe))
-- Remove deprecated apt options [\#293](https://github.com/Icinga/puppet-icinga2/pull/293) ([jkroepke](https://github.com/jkroepke))
 - Specify older fixtures for Puppet 3 tests [\#287](https://github.com/Icinga/puppet-icinga2/pull/287) ([lazyfrosch](https://github.com/lazyfrosch))
 - Update SLES lib directory [\#284](https://github.com/Icinga/puppet-icinga2/pull/284) ([dgoetz](https://github.com/dgoetz))
+- Replace darin/zypprepo with puppet/zypprepo [\#306](https://github.com/Icinga/puppet-icinga2/pull/306) ([noqqe](https://github.com/noqqe))
+- Remove deprecated apt options [\#293](https://github.com/Icinga/puppet-icinga2/pull/293) ([jkroepke](https://github.com/jkroepke))
 
 ## [v1.2.1](https://github.com/Icinga/puppet-icinga2/tree/v1.2.1) (2017-04-12)
 [Full Changelog](https://github.com/Icinga/puppet-icinga2/compare/v1.2.0...v1.2.1)
@@ -416,6 +554,8 @@
 - \[dev.icinga.com \#12656\] Inheritance [\#97](https://github.com/Icinga/puppet-icinga2/issues/97)
 
 ## [v0.1.0](https://github.com/Icinga/puppet-icinga2/tree/v0.1.0) (2016-09-06)
+[Full Changelog](https://github.com/Icinga/puppet-icinga2/compare/v0.6.2...v0.1.0)
+
 **Implemented enhancements:**
 
 - \[dev.icinga.com \#12348\] Add Support for Windows [\#54](https://github.com/Icinga/puppet-icinga2/issues/54)
@@ -424,6 +564,10 @@
 - \[dev.icinga.com \#12342\] Repo management [\#48](https://github.com/Icinga/puppet-icinga2/issues/48)
 - \[dev.icinga.com \#12340\] Installation [\#46](https://github.com/Icinga/puppet-icinga2/issues/46)
 
+## [v0.6.2](https://github.com/Icinga/puppet-icinga2/tree/v0.6.2) (2015-01-30)
+[Full Changelog](https://github.com/Icinga/puppet-icinga2/compare/v0.6.1...v0.6.2)
+
+## [v0.6.1](https://github.com/Icinga/puppet-icinga2/tree/v0.6.1) (2014-12-03)
 
 
 \* *This Change Log was automatically generated by [github_changelog_generator](https://github.com/skywinder/Github-Changelog-Generator)*

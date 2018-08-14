@@ -23,6 +23,11 @@
 Icinga 2 is a widely used open source monitoring software. This Puppet module helps with installing and managing
 configuration of Icinga 2 on multiple operating systems.
 
+### Notices
+
+For Icinga 2 v2.8.0 and higher version v1.3.4 and above is needed and the parameter repositoryd
+can set to false. See issue #403.
+
 ## Module Description
 
 This module installs and configures Icinga 2 on your Linux or Windows hosts.
@@ -50,8 +55,8 @@ available in Icinga 2 can be enabled and configured with this module.
 
 This module depends on:
 
-* [puppetlabs/stdlib] >= 4.10.0
-* [puppetlabs/concat] >= 2.0.1
+* [puppetlabs/stdlib] >= 4.16.0
+* [puppetlabs/concat] >= 2.1.0
 
 Depending on your setup following modules may also be required:
 
@@ -95,10 +100,23 @@ class { '::icinga2':
 }
 ```
 
+*Info:* If you are using the [Icinga Web 2](https://github.com/Icinga/puppet-icingaweb2/) Puppet module on the same
+server, make sure to disable the repository management for one of the modules!
+
 If you want to manage the version of Icinga 2, you have to disable the package management of this module and handle
-packages in your own Puppet code.
+packages in your own Puppet code. The attribute manage_repo is also disabled automattically and you have to manage
+a repository within icinga in front of the package resource, i.e. for a RedHat system:
 
 ``` puppet
+yumrepo { 'icinga-stable-release':
+  baseurl  => "http://packages.icinga.com/epel/${::operatingsystemmajrelease}/release/",
+  descr    => 'ICINGA (stable release for epel)',
+  enabled  => 1,
+  gpgcheck => 1,
+  gpgkey   => 'http://packages.icinga.com/icinga.key',
+  before   => Package['icinga2'],
+}
+
 package { 'icinga2':
   ensure => latest,
   notify => Class['icinga2'],
@@ -109,8 +127,8 @@ class { '::icinga2':
 }
 ```
 
-Be careful with this option: Setting `manage_package` to false means that this module will not install any package at
-all, including IDO packages.
+Note: Be careful with this option: Setting `manage_package` to false means that this module will not install any package at
+all, including IDO packages!
 
 ### Enabling Features
 
@@ -147,7 +165,7 @@ Depending on your database you need to enable the feature `icinga2::feature::ido
 Both features are capable of importing the base schema into the database, however this is disabled by default.
 Updating the database schema to another version is currently not supported.
 
-The IDO features require a pre-existing database and an user with permissions to create schema, and edit data
+The IDO features require a pre-existing database and a user with permissions to create schema and edit data.
 
 #### MySQL
 
@@ -162,7 +180,7 @@ include ::mysql::server
 mysql::db { 'icinga2':
   user     => 'icinga2',
   password => 'supersecret',
-  host     => 'localhost',
+  host     => '127.0.0.1',
   grant    => ['SELECT', 'INSERT', 'UPDATE', 'DELETE', 'DROP', 'CREATE VIEW', 'CREATE', 'INDEX', 'EXECUTE', 'ALTER'],
 }
 
@@ -216,7 +234,7 @@ sends configurations over the Icinga 2 protocol to satellites and/or clients.
 
 More detailed examples can be found in the [examples] directory.
 
-Ths examples creates the configuration for a master that has one satellite connected. A global zone is created for
+This example creates the configuration for a master that has one satellite connected. A global zone is created for
 templates, and all features of a typical master are enabled.
 
 ``` puppet
@@ -260,8 +278,8 @@ A satellite has a parent zone and one or multiple child zones. Satellites are us
 monitoring load or to reach delimited zones in the network. A satellite either executes checks itself or delegates them
 to a client.
 
-The satellite has less features enabled, but executes checks similar to a master. It connects to a master zone, and to
-and satellite or client below in the hierarchy. As parent acts either the master zone, or another satellite zone.
+The satellite has fewer features enabled, but executes checks similar to a master. It connects to a master zone, and to
+a satellite or client below in the hierarchy. As parent acts either the master zone, or another satellite zone.
 
 ``` puppet
 class { '::icinga2':
@@ -450,12 +468,74 @@ Assignments other than simple attribution are not currently possible either, e.g
 ```
   vars += config
 ```
+but you can use the following instead:
+```
+  vars = vars + config
+```
+
+#### Reading objects from hiera data
+
+The following example is for puppet 4 and higher. It shows how icinga2 objects can be read from
+a hiera datastore. See also examples/objects_from_hiera.pp.
+
+```
+class { 'icinga2':
+  manage_repo => true,
+}
+
+$defaults = lookup('monitoring::defaults')
+
+lookup('monitoring::objects').each |String $object_type, Hash $content| {
+  $content.each |String $object_name, Hash $object_config| {
+    ensure_resource(
+      $object_type,
+      $object_name,
+      deep_merge($defaults[$object_type], $object_config))
+  }
+}
+```
+
+The datastore could be like:
+
+```
+---
+monitoring::objects:
+  'icinga2::object::host':
+    centos7.localdomain:
+      address: 127.0.0.1
+      vars:
+        os: Linux
+  'icinga2::object::service':
+    ping4:
+      check_command: ping4
+      apply: true
+      assign:
+        - host.address
+    ssh:
+      check_command: ssh
+      apply: true
+      assign:
+        - host.address && host.vars.os == Linux
+
+monitoring::defaults:
+  'icinga2::object::host':
+    import:
+      - generic-host
+    target: /etc/icinga2/conf.d/hosts.conf
+  'icinga2::object::service':
+    import:
+      - generic-service
+    target: /etc/icinga2/conf.d/services.conf
+```
+
 
 ### Apply Rules
 
-Some objects support to be applied to other objects. To create a simple apply rule you must set the `apply` parameter to
-`true`. If this parameter is set to a string, this string will be used to build an `apply for` loop. A service object
-always targets a host object. All other objects need to explicitly set an `apply_target`
+Some objects can be applied to other objects. To create a simple apply rule you
+must set the `apply` parameter to `true`. If this parameter is set to a string,
+this string will be used to build an `apply for` loop. A service object always
+targets a host object. All other objects need to explicitly set an
+`apply_target`
 
 Apply a SSH service to all Linux hosts:
 
@@ -511,8 +591,8 @@ requires SSL/TLS client certificates. This module offers multiple choices to con
 
 #### CA on your Icinga Master
 
-One of your Icinga master needs to behave as a CA. With the class `icinga2::pki::ca` you can do following to fulfil
-this requirement:
+One of your Icinga masters needs to behave as a CA. With the class
+`icinga2::pki::ca` you can do the following to fulfill this requirement:
 
 * Use the the `icinga2` CLI to generate a complete new CA
 ``` puppet
@@ -545,7 +625,7 @@ file { '/var/lib/icinga2/ca/ca.key':
 ```
 
 * Create a new CA with the `icinga2` CLI command and a certificate signed by this new CA. This is useful especially when
-seting up a new Icinga 2 master.
+setting up a new Icinga 2 master.
 ```puppet
 class { '::icinga2':
   constants => {
@@ -570,7 +650,7 @@ class { '::icinga2::feature::api':
 }
 ```
 
-If you are looking for an option to use your Puppet CA, have a look to the
+If you are looking for an option to use your Puppet CA, have a look at the
 [Client/Satellite Certificates](#clientsatellite-certificates) section.
 
 #### Client/Satellite Certificates
@@ -583,7 +663,7 @@ instances. This module offers following options to create these certificates:
 include ::icinga2::feature::api
 ```
 
-* Use a custom function implemented in this module to generate a certificate. This feature will to the following:
+* Use a custom function implemented in this module to generate a certificate. This feature will do the following:
   * Generate a key and certificate based on the FQDN of the host
   * Save the certificate of another Icinga 2 instance, usually the Icinga master where your Icinga CA is located
   * Generate a ticket based on the TicketSalt
@@ -805,6 +885,10 @@ A list of the ITL plugins to load. Defaults to `[ 'plugins', 'plugins-contrib', 
 set this parameter to `false`. By default this parameter is `true`. It's also possible to assign your
 own directory. This directory and must be managed outside of this module as file resource
 with tag icinga2::config::file.
+
+##### `repositoryd`
+`repository.d` is removed since Icinga 2 2.8.0, set to true (default) will handle the directory.
+This Parameter will change to false by default in v2.0.0 and will be removed in the future.
 
 #### Class: `icinga2::feature::checker`
 Enables or disables the `checker` feature.
@@ -1224,7 +1308,8 @@ This host will be connected to request the certificate. Set this if you use the 
 Port of the 'ca_host'. Defaults to `5665`
 
 ##### `ticket_salt`
-Salt to use for ticket generation. Defaults to icinga2 constant `TicketSalt`.
+Salt to use for ticket generation. The salt is stored to api.conf if `none` or `ca` is chosen for `pki`.
+Defaults to constant `TicketSalt`.
 
 ##### `endpoints`
 Hash to configure endpoint objects. Defaults to `{ 'NodeName' => {} }`. `NodeName` is a Icinga 2 constant.
